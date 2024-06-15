@@ -37,6 +37,10 @@ class DocenteController extends Controller
         $docent->telefono = $request->input('telefono');
         $docent->correo = $request->input('correo');
 
+        if ($request->hasFile('imagen')){ //si desde ese campo viene un archivo hacer:
+            $docent->imagen = $request->file('imagen')->store('public/docentes');
+
+        }
         $docent->save();
         return 'Guardado exitoso';
     }
@@ -46,7 +50,8 @@ class DocenteController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $docent=Docente::find($id);
+        return view('docentes.show', compact('docent'));
     }
 
     /**
@@ -54,7 +59,8 @@ class DocenteController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $docent = Docente::find($id);
+        return view('docentes.edit',compact('docent'));
     }
 
     /**
@@ -62,7 +68,13 @@ class DocenteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $docent = Docente::find($id);
+        $docent->fill($request->except('imagen'));
+        if ($request->hasFile('imagen')){ //si desde ese campo viene un archivo hacer:
+            $docent->imagen = $request->file('imagen')->store('public/docentes');
+            $docent->save();
+            return 'Docente actualizado';
+        }
     }
 
     /**
