@@ -14,3 +14,4 @@ Route::get('/saludo', [SaludoController::class, 'saludito']);
 Route::resource('/cursos', CursoController::class);
 
 Route::resource('/docentes', DocenteController::class);
+
